@@ -12,6 +12,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import VerifyEmail from "./pages/VerifyEmail";
 import UserDashboard from "./pages/UserDashboard";
+import PetDetails from "./pages/PetDetails";
+import EditPet from "./pages/EditPet";
 import { Toaster } from "react-hot-toast";
 
 function App() {
@@ -22,6 +24,8 @@ function App() {
           <Routes>
             <Route path="/" element={<PetsList />} />
             <Route path="/new" element={<ProtectedRoute><NewPet/></ProtectedRoute>} />
+            <Route path="/pet/:id" element={<PetDetails />} />
+            <Route path="/pet/:id/edit" element={<ProtectedRoute><EditPet/></ProtectedRoute>} />
             <Route path="/verify-email" element={<ProtectedRoute><VerifyEmail/></ProtectedRoute>} />
             <Route path="/me" element={<ProtectedRoute><UserDashboard/></ProtectedRoute>} />
             <Route path="/login" element={<Login />} />

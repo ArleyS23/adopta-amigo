@@ -17,12 +17,12 @@ El proyecto utiliza la configuracion de Firebase incluida en `src/firebase.js`; 
 ## Flujo de datos
 1. `NewPet` valida el formulario con Zod. Si el usuario proporciona una URL de imagen, se almacena tal cual; de lo contrario se usa un placeholder.
 2. El documento en Firestore contiene `ownerId`, `imageUrl`, `status`, `createdAt`, claves públicas RSA y la firma del dato de contacto.
-3. `PetsList` lee Firestore (ordenado por fecha), permite filtrar localmente, guardar mascotas en tu lista y borra documentos cuando el dueño elimina su publicación. Además verifica la firma RSA para mostrar que el correo de contacto no fue alterado.
+3. `PetsList` lee Firestore (ordenado por fecha), permite filtrar localmente, guardar mascotas en tu lista, acceder a un perfil detallado (`/pet/:id`) y borra documentos o los edita desde la UI del dueño. Además verifica la firma RSA para mostrar que el correo de contacto no fue alterado.
 
 > La carpeta `server/` permanece como referencia del backend previo, pero la app actual funciona únicamente con Firebase.
 
 ## Historia de usuario
-- **Como voluntario que administra adopciones**, quiero publicar mascotas con información verificada para que las personas puedan confiar en los datos de contacto.
+- **Como voluntario que administra adopciones**, quiero publicar mascotas con información verificada y poder editarlas cuando cambie algún dato.
 - **Como adoptante**, deseo ver tarjetas con detalles claros de cada mascota (edad, ciudad, estado, contacto verificado), guardarlas en mi lista y poder contactar rápidamente a los dueños.
 - **Como equipo de seguridad**, necesito que el acceso esté protegido con autenticación en dos pasos vía correo electrónico y que los datos sensibles se firmen digitalmente con RSA para detectar modificaciones.
 

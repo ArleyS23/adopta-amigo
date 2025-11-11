@@ -1,4 +1,6 @@
-﻿const PLACEHOLDER = "https://placehold.co/600x400?text=Mascota";
+﻿import { Link } from "react-router-dom";
+
+const PLACEHOLDER = "https://placehold.co/600x400?text=Mascota";
 
 const formatDate = (value) => {
   if (!value) return "Sin fecha";
@@ -54,20 +56,22 @@ export default function PetCard({
             )}
           </div>
         </div>
-        <div className="mt-4 flex flex-wrap items-center gap-2 justify-between">
+        <div className="mt-4 flex flex-wrap gap-2">
+          <Link to={`/pet/${pet.id}`} className="btn-ghost">Ver perfil</Link>
           {onContact && <button onClick={onContact} className="btn-ghost">Mensaje</button>}
-          <div className="flex gap-2">
-            {onSave && (
-              <button onClick={onSave} className="btn-ghost">
-                {saved ? "Quitar de pendientes" : "Guardar"}
-              </button>
-            )}
-            {canDelete && (
+          {onSave && (
+            <button onClick={onSave} className="btn-ghost">
+              {saved ? "Quitar de pendientes" : "Guardar"}
+            </button>
+          )}
+          {canDelete && (
+            <>
+              <Link to={`/pet/${pet.id}/edit`} className="btn-ghost">Editar</Link>
               <button onClick={onDelete} className="btn-danger" disabled={deleting}>
                 {deleting ? "Eliminando..." : "Eliminar"}
               </button>
-            )}
-          </div>
+            </>
+          )}
         </div>
       </div>
     </article>
