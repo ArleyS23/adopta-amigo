@@ -14,6 +14,7 @@ import VerifyEmail from "./pages/VerifyEmail";
 import UserDashboard from "./pages/UserDashboard";
 import PetDetails from "./pages/PetDetails";
 import EditPet from "./pages/EditPet";
+import Chat from "./pages/Chat";
 import { Toaster } from "react-hot-toast";
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
             <Route path="/pet/:id/edit" element={<ProtectedRoute><EditPet/></ProtectedRoute>} />
             <Route path="/verify-email" element={<ProtectedRoute><VerifyEmail/></ProtectedRoute>} />
             <Route path="/me" element={<ProtectedRoute><UserDashboard/></ProtectedRoute>} />
+            <Route path="/chat/:conversationId" element={<ProtectedRoute><Chat/></ProtectedRoute>} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
           </Routes>

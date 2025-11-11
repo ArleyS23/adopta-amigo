@@ -43,3 +43,12 @@ export async function findPetById(id) {
   const pets = await getAllPets();
   return pets.find((p) => p.id === id) || null;
 }
+
+export async function updatePet(id, changes) {
+  const pets = await getAllPets();
+  const idx = pets.findIndex((p) => p.id === id);
+  if (idx === -1) return null;
+  pets[idx] = { ...pets[idx], ...changes };
+  await persist(pets);
+  return pets[idx];
+}

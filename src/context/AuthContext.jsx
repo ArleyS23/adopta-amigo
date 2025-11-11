@@ -116,7 +116,9 @@ export default function AuthProvider({ children }) {
           uid: currentUser.uid,
           email: currentUser.email,
           displayName: currentUser.displayName || "",
+          photoURL: currentUser.photoURL || "",
           savedPets: [],
+          role: "user",
         };
         await setDoc(ref, base, { merge: true });
         if (active) setProfile(base);
@@ -126,8 +128,10 @@ export default function AuthProvider({ children }) {
       if (active) {
         setProfile({
           displayName: data.displayName || currentUser.displayName || "",
+          photoURL: data.photoURL || currentUser.photoURL || "",
           savedPets: data.savedPets || [],
           publicKey: data.publicKey || rsaState.publicKeyBase64 || null,
+          role: data.role || "user",
         });
       }
     }
@@ -164,28 +168,32 @@ export default function AuthProvider({ children }) {
     await batch.commit();
   };
 
-  const updateDisplayName = async (name) => {
+  const updateProfileInfo = async ({ displayName, photoURL }) => {
     if (!user) return;
-    const trimmed = name.trim();
-    await setDoc(doc(db, "users", user.uid), { displayName: trimmed }, { merge: true });
-    if (auth.currentUser) await updateProfile(auth.currentUser, { displayName: trimmed });
-    await syncOwnerNames(trimmed);
+    const payload = {};
+    if (typeof displayName === "string") payload.displayName = displayName.trim();
+    if (typeof photoURL === "string") payload.photoURL = photoURL.trim();
+    await setDoc(doc(db, "users", user.uid), payload, { merge: true });
+    await updateProfile(auth.currentUser, {
+      displayName: payload.displayName ?? auth.currentUser.displayName,
+      photoURL: payload.photoURL ?? auth.currentUser.photoURL,
+    });
+    if (payload.displayName) await syncOwnerNames(payload.displayName);
     setProfile((prev) => ({
       ...(prev || {}),
-      displayName: trimmed,
+      displayName: payload.displayName ?? prev?.displayName ?? "",
+      photoURL: payload.photoURL ?? prev?.photoURL ?? "",
       savedPets: prev?.savedPets || [],
+      role: prev?.role || "user",
     }));
   };
   const toggleSavedPet = async (petId) => {
     if (!user) throw new Error("Debes iniciar sesion para guardar favoritos");
-    let nextSaved = [];
-    setProfile((prev) => {
-      const current = prev?.savedPets || [];
-      const exists = current.includes(petId);
-      nextSaved = exists ? current.filter((id) => id !== petId) : [...current, petId];
-      return { ...(prev || {}), savedPets: nextSaved };
-    });
-    await setDoc(doc(db, "users", user.uid), { savedPets: nextSaved }, { merge: true });
+    const current = profile?.savedPets || [];
+    const exists = current.includes(petId);
+    const updated = exists ? current.filter((id) => id !== petId) : [...current, petId];
+    await setDoc(doc(db, "users", user.uid), { savedPets: updated }, { merge: true });
+    setProfile((prev) => ({ ...(prev || {}), savedPets: updated }));
   };
 
   return <AuthCtx.Provider value={{
@@ -199,8 +207,9 @@ export default function AuthProvider({ children }) {
     signSecure,
     refreshUser,
     profile,
-    updateDisplayName,
+    updateProfile: updateProfileInfo,
     toggleSavedPet,
+    isAdmin: profile?.role === "admin",
   }}>
     {children}
   </AuthCtx.Provider>;

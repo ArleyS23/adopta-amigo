@@ -1,15 +1,47 @@
 [
   {
+    "id": "pet_IAZVvk0xkM",
+    "name": "Camilo",
+    "age": 5,
+    "description": "Vacunado, molesto ",
+    "city": "Bogota",
+    "breed": "Criollo",
+    "color": "Cafe",
+    "size": "grande",
+    "vaccines": [
+      "Rabia",
+      "Parvovirus",
+      "Hepatitis"
+    ],
+    "contact": "minicortes963@gmail.com",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdxZqE6M9r_OX8KQ8mrrjMTAZcghdhVMssBA&s",
+    "ownerId": "R1dpvxe296bUMSYS34TAJW888jJ2",
+    "ownerName": "Usuario",
+    "ownerPublicKey": null,
+    "contactSignature": null,
+    "createdAt": "2025-11-11T18:22:59.337Z",
+    "status": "adoptado",
+    "updatedAt": "2025-11-11T19:05:04.238Z"
+  },
+  {
     "id": "pet_e1NgS5oq3s",
     "name": "Dairo",
     "age": 5,
     "description": "Le gusta la cerveza",
     "city": "Cucunuba",
     "contact": "minicortes963@gmail.com",
-    "imageUrl": "/uploads/pet-4nTTkq_nAi.png",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1baNJm1CQH2uIj24s72RD4w8CVL4bN1O4QQ&s",
     "ownerId": "zLp6eTi9xYVfz8eNg5pA8aaG6gP2",
     "createdAt": "2025-11-11T02:35:35.997Z",
-    "status": "available"
+    "status": "available",
+    "breed": "Criollo",
+    "color": "Cafe",
+    "size": "mediano",
+    "vaccines": [
+      "Parvovirus",
+      "Moquillo"
+    ],
+    "updatedAt": "2025-11-11T18:28:08.381Z"
   },
   {
     "id": "pet_XS-Nh-H8rx",
@@ -18,33 +50,20 @@
     "description": "juega Futbol",
     "city": "Suta",
     "contact": "minicortes963@gmail.com",
-    "imageUrl": "/uploads/pet-ERODIRH34o.png",
+    "imageUrl": "https://blog.agrocampo.com.co/wp-content/uploads/2019/08/perro-chihuahua.jpg",
     "ownerId": "zLp6eTi9xYVfz8eNg5pA8aaG6gP2",
     "createdAt": "2025-11-11T02:32:18.653Z",
-    "status": "available"
-  },
-  {
-    "id": "pet_simba",
-    "name": "Simba",
-    "age": 2,
-    "description": "Jugueton, esterilizado y ama las croquetas.",
-    "city": "Bogota",
-    "contact": "simba@adopta.com",
-    "ownerId": "demo-owner-1",
-    "imageUrl": "https://placehold.co/800x600/png?text=Simba",
-    "createdAt": "2025-01-05T10:00:00.000Z",
-    "status": "available"
-  },
-  {
-    "id": "pet_luna",
-    "name": "Luna",
-    "age": 4,
-    "description": "Tranquila y muy carinosa con ninos.",
-    "city": "Medellin",
-    "contact": "luna@adopta.com",
-    "ownerId": "demo-owner-2",
-    "imageUrl": "https://placehold.co/800x600/png?text=Luna",
-    "createdAt": "2025-01-02T15:30:00.000Z",
-    "status": "available"
+    "status": "available",
+    "breed": "Criollo",
+    "color": "Cafe",
+    "size": "pequeno",
+    "vaccines": [
+      "Rabia",
+      "Parvovirus",
+      "Moquillo",
+      "Hepatitis",
+      "Leptospirosis"
+    ],
+    "updatedAt": "2025-11-11T18:29:37.531Z"
   }
 ]
