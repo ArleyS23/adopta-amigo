@@ -1,0 +1,50 @@
+[
+  {
+    "id": "pet_e1NgS5oq3s",
+    "name": "Dairo",
+    "age": 5,
+    "description": "Le gusta la cerveza",
+    "city": "Cucunuba",
+    "contact": "minicortes963@gmail.com",
+    "imageUrl": "/uploads/pet-4nTTkq_nAi.png",
+    "ownerId": "zLp6eTi9xYVfz8eNg5pA8aaG6gP2",
+    "createdAt": "2025-11-11T02:35:35.997Z",
+    "status": "available"
+  },
+  {
+    "id": "pet_XS-Nh-H8rx",
+    "name": "Mono",
+    "age": 6,
+    "description": "juega Futbol",
+    "city": "Suta",
+    "contact": "minicortes963@gmail.com",
+    "imageUrl": "/uploads/pet-ERODIRH34o.png",
+    "ownerId": "zLp6eTi9xYVfz8eNg5pA8aaG6gP2",
+    "createdAt": "2025-11-11T02:32:18.653Z",
+    "status": "available"
+  },
+  {
+    "id": "pet_simba",
+    "name": "Simba",
+    "age": 2,
+    "description": "Jugueton, esterilizado y ama las croquetas.",
+    "city": "Bogota",
+    "contact": "simba@adopta.com",
+    "ownerId": "demo-owner-1",
+    "imageUrl": "https://placehold.co/800x600/png?text=Simba",
+    "createdAt": "2025-01-05T10:00:00.000Z",
+    "status": "available"
+  },
+  {
+    "id": "pet_luna",
+    "name": "Luna",
+    "age": 4,
+    "description": "Tranquila y muy carinosa con ninos.",
+    "city": "Medellin",
+    "contact": "luna@adopta.com",
+    "ownerId": "demo-owner-2",
+    "imageUrl": "https://placehold.co/800x600/png?text=Luna",
+    "createdAt": "2025-01-02T15:30:00.000Z",
+    "status": "available"
+  }
+]

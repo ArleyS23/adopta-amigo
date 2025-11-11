@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+/* ===== Tokens ===== */
+:root{
+  --bg: #fdf6f0;          /* fondo crema */
+  --ink: #222;            /* texto principal */
+  --muted: #6b7280;       /* texto secundario */
+  --brand: #7dd3fc;       /* azul pastel */
+  --accent: #bbf7d0;      /* verde pastel */
+  --danger: #fecaca;      /* rojo pastel */
+}
+
+/* ===== Base ===== */
+html,body,#root{ height:100%; }
+body{
+  background: var(--bg);
+  color: var(--ink);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+/* ===== Component-like utilities ===== */
+.card{
+  /* NO @apply de clases personalizadas */
+  /* equivalentes de la card: */
+  @apply bg-white rounded-2xl shadow-sm ring-1 ring-black/5;
+}
+.card:hover{ @apply shadow-md; }
+
+/* Botones SIN referenciar .btn en @apply */
+.btn{
+  @apply inline-flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm transition;
+}
+.btn-ghost{
+  @apply inline-flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm transition;
+  @apply border border-black/10 bg-white hover:bg-black/5;
+}
+.btn-primary{
+  @apply inline-flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm transition;
+  color: #000; background: var(--accent);
+}
+.btn-danger{
+  @apply inline-flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm transition;
+  color: #000; background: var(--danger);
+}
+
+.input       { @apply w-full rounded-xl border border-black/10 bg-white px-3 py-2 outline-none transition; }
+.input:focus { @apply ring-2 ring-cyan-200; }
+
+.label       { @apply text-sm font-medium text-gray-700; }
+.badge       { @apply inline-flex items-center rounded-full px-2.5 py-1 text-xs bg-black/5; }
+
+.navbar   { @apply sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-white/70 bg-white/90 border-b; }
+.container{ @apply mx-auto max-w-6xl px-4; }
+
+.section-title{ @apply text-3xl font-bold tracking-tight; }
+.muted        { color: var(--muted); }
+
+.grid-pets{ @apply grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4; }
+
+/* Estado vacío: expandimos las utilidades de .card en lugar de @apply card */
+.empty{
+  @apply p-10 text-center text-gray-600 bg-white rounded-2xl shadow-sm ring-1 ring-black/5;
+  background-image: linear-gradient(to bottom right,#ffffff, #fff7ed);
+}
