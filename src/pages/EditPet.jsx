@@ -40,7 +40,7 @@ const schema = z.object({
 
 export default function EditPet() {
   const { id } = useParams();
-  const { user, rsaReady, signSecure, rsaPublicKey, profile } = useAuth();
+  const { user, rsaReady, signSecure, rsaPublicKey, profile, getIdToken } = useAuth();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [pet, setPet] = useState(null);
@@ -93,10 +93,15 @@ export default function EditPet() {
     try {
       setSaving(true);
       toast.loading("Guardando cambios…", { id: "edit" });
+      const token = await getIdToken();
+      if (!token) {
+        toast.error("Tu sesión no está lista");
+        return;
+      }
       const vaccines = values.vaccines ? (Array.isArray(values.vaccines) ? values.vaccines : [values.vaccines]) : [];
       let imageUrl = values.imageUrl || pet.imageUrl || null;
       if (imageFile) {
-        const { url } = await uploadPetImage(imageFile, user);
+        const { url } = await uploadPetImage(imageFile, token);
         imageUrl = url;
       }
       const payload = {
@@ -121,7 +126,7 @@ export default function EditPet() {
         payload.contactSignature = values.contact ? await signSecure(values.contact) : null;
       }
 
-      await updatePetRequest(id, payload, user, profile?.role || "user");
+      await updatePetRequest(id, payload, token);
       toast.success("Publicación actualizada", { id: "edit" });
       navigate(`/pet/${id}`);
     } catch (err) {

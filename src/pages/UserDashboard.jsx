@@ -21,7 +21,7 @@ const STATUS_LABELS = {
 };
 
 export default function UserDashboard() {
-  const { user, profile, updateProfile, toggleSavedPet, isAdmin } = useAuth();
+  const { user, profile, updateProfile, toggleSavedPet, isAdmin, getIdToken } = useAuth();
   const [name, setName] = useState(profile?.displayName || "");
   const [photo, setPhoto] = useState(profile?.photoURL || "");
   const [savingName, setSavingName] = useState(false);
@@ -108,8 +108,10 @@ export default function UserDashboard() {
   const handleDeletePet = async (pet) => {
     if (!confirm(`¿Eliminar "${pet.name}"?`)) return;
     try {
+      const token = await getIdToken();
+      if (!token) throw new Error("Sesion no lista");
       setDeletingId(pet.id);
-      await deletePetRequest(pet.id, user, profile?.role || "user");
+      await deletePetRequest(pet.id, token);
       setMyPets((prev) => prev.filter((p) => p.id !== pet.id));
       toast.success("Publicación eliminada");
     } catch (err) {
@@ -122,8 +124,10 @@ export default function UserDashboard() {
 
   const handleStatusChange = async (conversation, newStatus) => {
     try {
+      const token = await getIdToken();
+      if (!token) throw new Error("Sesion no lista");
       await updateConversationStatus(conversation.id, newStatus);
-      await updatePetRequest(conversation.petId, { status: newStatus }, user, profile?.role || "user");
+      await updatePetRequest(conversation.petId, { status: newStatus }, token);
       toast.success("Estado actualizado");
     } catch (err) {
       console.error("[Dashboard] status", err);

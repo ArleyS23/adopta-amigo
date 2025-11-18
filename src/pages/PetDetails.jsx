@@ -17,7 +17,7 @@ const STATUS_LABELS = {
 export default function PetDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user, profile, toggleSavedPet, isAdmin } = useAuth();
+  const { user, profile, toggleSavedPet, isAdmin, getIdToken } = useAuth();
   const [pet, setPet] = useState(null);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState(false);
@@ -50,8 +50,10 @@ export default function PetDetails() {
     }
     if (!confirm(`¿Eliminar "${pet.name}"?`)) return;
     try {
+      const token = await getIdToken();
+      if (!token) throw new Error("Sesion no lista");
       setDeleting(true);
-      await deletePetRequest(pet.id, user, profile?.role || "user");
+      await deletePetRequest(pet.id, token);
       toast.success("Publicación eliminada");
       navigate("/");
     } catch (err) {
@@ -86,9 +88,11 @@ export default function PetDetails() {
   const handleCycleStatus = async () => {
     if (!pet || !user) return;
     try {
+      const token = await getIdToken();
+      if (!token) throw new Error("Sesion no lista");
       setChangingStatus(true);
       const next = nextStatus(pet.status);
-      const updated = await updatePetRequest(pet.id, { status: next }, user, profile?.role || "user");
+      const updated = await updatePetRequest(pet.id, { status: next }, token);
       setPet((prev) => ({ ...prev, status: updated.status }));
       toast.success(`Estado actualizado a ${STATUS_LABELS[next] || next}`);
     } catch (err) {

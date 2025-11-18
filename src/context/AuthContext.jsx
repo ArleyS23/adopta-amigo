@@ -156,6 +156,10 @@ export default function AuthProvider({ children }) {
     setUser(auth.currentUser);
     return auth.currentUser;
   };
+  const getIdToken = async (force = false) => {
+    if (!auth.currentUser) return null;
+    return auth.currentUser.getIdToken(force);
+  };
   const syncOwnerNames = async (newName) => {
     if (!user) return;
     const q = query(collection(db, "pets"), where("ownerId", "==", user.uid));
@@ -209,6 +213,7 @@ export default function AuthProvider({ children }) {
     profile,
     updateProfile: updateProfileInfo,
     toggleSavedPet,
+    getIdToken,
     isAdmin: profile?.role === "admin",
   }}>
     {children}

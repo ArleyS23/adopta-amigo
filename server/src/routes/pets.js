@@ -2,6 +2,7 @@
 import { nanoid } from "nanoid";
 import { z } from "zod";
 import { addPet, deletePet, findPetById, getAllPets, updatePet } from "../db.js";
+import { requireAuth } from "../middleware/auth.js";
 
 const router = Router();
 
@@ -71,10 +72,9 @@ router.get("/:id", async (req, res) => {
   res.json({ ...pet, status: normalizeStatus(pet.status) });
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", requireAuth, async (req, res, next) => {
   try {
-    const userId = req.header("x-user-id");
-    if (!userId) return res.status(401).json({ message: "Missing x-user-id header" });
+    const { uid: userId, email } = req.auth;
     const body = createPetSchema.parse(req.body);
     const vaccines = body.vaccines
       ? Array.isArray(body.vaccines) ? body.vaccines : [body.vaccines]
@@ -85,7 +85,7 @@ router.post("/", async (req, res, next) => {
       vaccines,
       imageUrl: body.imageUrl || "https://placehold.co/800x600/png?text=Mascota",
       ownerId: userId,
-      ownerName: body.ownerName || "Usuario",
+      ownerName: body.ownerName || email || "Usuario",
       ownerPublicKey: body.ownerPublicKey || null,
       contactSignature: body.contactSignature || null,
       createdAt: new Date().toISOString(),
@@ -101,10 +101,8 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.patch("/:id", async (req, res) => {
-  const userId = req.header("x-user-id");
-  const role = req.header("x-user-role");
-  if (!userId) return res.status(401).json({ message: "Missing x-user-id header" });
+router.patch("/:id", requireAuth, async (req, res) => {
+  const { uid: userId, role } = req.auth;
   const pet = await findPetById(req.params.id);
   if (!pet) return res.status(404).json({ message: "Pet not found" });
   const isOwner = pet.ownerId === userId;
@@ -122,10 +120,8 @@ router.patch("/:id", async (req, res) => {
   res.json({ ...updated, status: normalizeStatus(updated.status) });
 });
 
-router.delete("/:id", async (req, res) => {
-  const userId = req.header("x-user-id");
-  const role = req.header("x-user-role");
-  if (!userId) return res.status(401).json({ message: "Missing x-user-id header" });
+router.delete("/:id", requireAuth, async (req, res) => {
+  const { uid: userId, role } = req.auth;
   const pet = await findPetById(req.params.id);
   if (!pet) return res.status(404).json({ message: "Pet not found" });
   const isOwner = pet.ownerId === userId;

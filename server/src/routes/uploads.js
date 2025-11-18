@@ -4,6 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { existsSync, mkdirSync } from "node:fs";
 import { nanoid } from "nanoid";
+import { requireAuth } from "../middleware/auth.js";
 
 const router = Router();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -35,9 +36,7 @@ const upload = multer({
 
 const handleUpload = upload.single("image");
 
-router.post("/", (req, res) => {
-  const userId = req.header("x-user-id");
-  if (!userId) return res.status(401).json({ message: "Missing x-user-id header" });
+router.post("/", requireAuth, (req, res) => {
   handleUpload(req, res, (err) => {
     if (err) {
       if (err.message === "File too large") {

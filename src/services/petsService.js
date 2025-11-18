@@ -17,34 +17,25 @@ export function getPet(id) {
   return apiFetch(`/pets/${id}`);
 }
 
-export function createPet(payload, user, role = "user") {
+export function createPet(payload, token) {
   return apiFetch("/pets", {
     method: "POST",
     body: JSON.stringify(payload),
-    headers: {
-      "x-user-id": user.uid,
-      "x-user-role": role,
-    },
+    authToken: token,
   });
 }
 
-export function updatePetRequest(id, payload, user, role = "user") {
+export function updatePetRequest(id, payload, token) {
   return apiFetch(`/pets/${id}`, {
     method: "PATCH",
     body: JSON.stringify(payload),
-    headers: {
-      "x-user-id": user.uid,
-      "x-user-role": role,
-    },
+    authToken: token,
   });
 }
 
-export function deletePetRequest(id, user, role = "user") {
+export function deletePetRequest(id, token) {
   return apiFetch(`/pets/${id}`, {
     method: "DELETE",
-    headers: {
-      "x-user-id": user.uid,
-      "x-user-role": role,
-    },
+    authToken: token,
   });
 }

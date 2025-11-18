@@ -1,16 +1,20 @@
 ﻿const API_BASE = (import.meta.env.VITE_API_URL || "http://localhost:4000/api").replace(/\/$/, "");
 
 export async function apiFetch(path, options = {}) {
-  const isFormData = typeof FormData !== "undefined" && options.body instanceof FormData;
+  const { authToken, ...rest } = options;
+  const isFormData = typeof FormData !== "undefined" && rest.body instanceof FormData;
   const headers = {
-    ...(options.headers || {}),
+    ...(rest.headers || {}),
   };
   if (!isFormData && !headers["Content-Type"]) {
     headers["Content-Type"] = "application/json";
   }
+  if (authToken) {
+    headers.Authorization = `Bearer ${authToken}`;
+  }
 
   const response = await fetch(`${API_BASE}${path}`, {
-    ...options,
+    ...rest,
     headers,
   });
 

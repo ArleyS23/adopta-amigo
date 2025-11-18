@@ -42,7 +42,7 @@ export default function NewPet() {
   const [imageFile, setImageFile] = useState(null);
   const [preview, setPreview] = useState("");
   const nav = useNavigate();
-  const { user, rsaReady, signSecure, rsaPublicKey, profile } = useAuth();
+  const { user, rsaReady, signSecure, rsaPublicKey, profile, getIdToken } = useAuth();
 
   const handleImageChange = (event) => {
     const file = event.target.files?.[0];
@@ -68,13 +68,19 @@ export default function NewPet() {
       setLoading(true);
       toast.loading("Publicando...", { id: "pub" });
 
+      const token = await getIdToken();
+      if (!token) {
+        toast.error("Tu sesión no está lista para publicar.");
+        return;
+      }
+
       const vaccines = data.vaccines
         ? Array.isArray(data.vaccines) ? data.vaccines : [data.vaccines]
         : [];
 
       let imageUrl = data.imageUrl || null;
       if (imageFile) {
-        const { url } = await uploadPetImage(imageFile, user);
+        const { url } = await uploadPetImage(imageFile, token);
         imageUrl = url;
       }
 
@@ -99,7 +105,7 @@ export default function NewPet() {
         doc.contactSignature = await signSecure(data.contact);
       }
 
-      await createPet(doc, user, profile?.role || "user");
+      await createPet(doc, token);
 
       toast.success("Mascota publicada :)", { id: "pub" });
       console.log("[NewPet] success, going home");

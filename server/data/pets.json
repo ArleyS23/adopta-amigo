@@ -1,5 +1,28 @@
 [
   {
+    "id": "pet_M36d6mXkDt",
+    "name": "Gacha",
+    "age": 4,
+    "description": "Vacunado",
+    "city": "Cucunuba",
+    "breed": "Criollo",
+    "color": "Blanco",
+    "size": "mediano",
+    "vaccines": [
+      "Rabia",
+      "Moquillo",
+      "Leptospirosis"
+    ],
+    "contact": "Brayansaen822@gmail.com",
+    "imageUrl": "/uploads/pet-kpFyqZWJmS.png",
+    "status": "active",
+    "ownerId": "R1dpvxe296bUMSYS34TAJW888jJ2",
+    "ownerName": "Usuario",
+    "ownerPublicKey": null,
+    "contactSignature": null,
+    "createdAt": "2025-11-17T22:20:00.867Z"
+  },
+  {
     "id": "pet_IAZVvk0xkM",
     "name": "Camilo",
     "age": 5,

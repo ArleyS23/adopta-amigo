@@ -15,7 +15,7 @@ export default function PetsList() {
   const [city, setCity] = useState("");
   const [loading, setLoading] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
-  const { user, profile, toggleSavedPet, isAdmin } = useAuth();
+  const { user, profile, toggleSavedPet, isAdmin, getIdToken } = useAuth();
   const navigate = useNavigate();
 
   const load = useCallback(async () => {
@@ -65,8 +65,10 @@ export default function PetsList() {
     }
     if (!confirm(`Eliminar a ${pet.name}?`)) return;
     try {
+      const token = await getIdToken();
+      if (!token) throw new Error("Sesion no lista");
       setDeletingId(pet.id);
-      await deletePetRequest(pet.id, user, profile?.role || "user");
+      await deletePetRequest(pet.id, token);
       await load();
       toast.success("Publicacion eliminada");
     } catch (err) {
@@ -98,8 +100,10 @@ export default function PetsList() {
   const handleStatusCycle = async (pet) => {
     if (!user) return;
     try {
+      const token = await getIdToken();
+      if (!token) throw new Error("Sesion no lista");
       const next = nextStatus(pet.status);
-      const updated = await updatePetRequest(pet.id, { status: next }, user, profile?.role || "user");
+      const updated = await updatePetRequest(pet.id, { status: next }, token);
       setPets((prev) => prev.map((p) => (p.id === pet.id ? { ...p, status: updated.status } : p)));
       toast.success(`Estado cambiado a ${STATUS_LABELS[next] || next}`);
     } catch (err) {
